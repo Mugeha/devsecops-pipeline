@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+
+# Reports
+reports/*.html
+reports/*.json
+reports/*.txt
+!reports/.gitkeep
+
+# Security
+*.key
+*.pem
+secrets.txt
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CI/CD
+.github/workflows/*.log

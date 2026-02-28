@@ -1,0 +1,6 @@
+flask==2.3.0
+werkzeug==2.3.0
+# VULNERABILITY: Using old version with known CVEs
+requests==2.25.0
+# VULNERABILITY: Outdated cryptography library
+cryptography==3.3.2
