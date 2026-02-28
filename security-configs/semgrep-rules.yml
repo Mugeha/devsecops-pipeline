@@ -1,0 +1,109 @@
+rules:
+  # SQL Injection Detection
+  - id: sql-injection-format-string
+    pattern: |
+      $QUERY = f"... {$VAR} ..."
+      $DB.execute($QUERY)
+    message: Potential SQL injection using f-string formatting
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-89: SQL Injection"
+      owasp: "A03:2021 - Injection"
+
+  - id: sql-injection-concat
+    pattern: |
+      $QUERY = "..." + $VAR + "..."
+      $DB.execute($QUERY)
+    message: Potential SQL injection using string concatenation
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-89: SQL Injection"
+
+  # Hardcoded Secrets
+  - id: hardcoded-secret-key
+    pattern: |
+      SECRET_KEY = "..."
+    message: Hardcoded secret key detected
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+
+  - id: hardcoded-api-key
+    pattern: |
+      API_KEY = "..."
+    message: Hardcoded API key detected
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+
+  # XSS Vulnerabilities
+  - id: flask-render-template-string-xss
+    pattern: |
+      render_template_string($TEMPLATE)
+    message: Using render_template_string with user input may lead to XSS
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-79: Cross-site Scripting"
+
+  # Command Injection
+  - id: os-popen-injection
+    pattern: |
+      os.popen(f"... {$VAR} ...")
+    message: Potential command injection using os.popen
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-78: OS Command Injection"
+
+  - id: os-system-injection
+    pattern: |
+      os.system(f"... {$VAR} ...")
+    message: Potential command injection using os.system
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-78: OS Command Injection"
+
+  # Path Traversal
+  - id: path-traversal
+    pattern: |
+      $PATH = os.path.join($BASE, $USER_INPUT)
+      open($PATH, ...)
+    message: Potential path traversal vulnerability
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-22: Path Traversal"
+
+  # Insecure Deserialization
+  - id: pickle-loads
+    pattern: pickle.loads($DATA)
+    message: Insecure deserialization with pickle
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+
+  # Debug Mode in Production
+  - id: flask-debug-true
+    pattern: app.run(debug=True)
+    message: Flask app running in debug mode
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-489: Active Debug Code"
